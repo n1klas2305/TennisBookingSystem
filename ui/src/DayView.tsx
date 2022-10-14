@@ -1,22 +1,25 @@
 import "./App.css";
 
+export interface Booking {
+  firstName?: string;
+  lastName?: string;
+  startTime: number;
+  endTime: number;
+  type: "BOOKED" | "BLOCKED";
+}
+
 export interface DayViewProps {
   title: string;
-  bookings: {
-    text: string;
-    startTime: number;
-    endTime: number;
-    type: "BOOKED" | "BLOCKED";
-  }[];
+  bookings: Booking[];
 }
 
 function getBookingFromHour(
   hour: number,
-  days: DayViewProps["bookings"]
-): DayViewProps["bookings"][number] | undefined {
+  days: Booking[]
+): Booking | undefined {
   const booking = days.find(
     (day) =>
-      day.startTime === hour || (day.startTime < hour && day.endTime > hour)
+      day.startTime <= hour && day.endTime > hour
   );
   return booking;
 }
@@ -43,7 +46,7 @@ function App(props: DayViewProps) {
                       backgroundColor: booking != null ? "grey" : "",
                     }}
                   >
-                    {booking?.text}
+                    {booking?.firstName} {booking?.lastName}
                   </td>
                 </tr>
               );
