@@ -1,4 +1,6 @@
-import "./App.css";
+import type { Property } from "csstype";
+import { useState } from "react";
+import BookingModal from "./BookingModal";
 
 export interface Booking {
   firstName?: string;
@@ -18,19 +20,38 @@ function getBookingFromHour(
   days: Booking[]
 ): Booking | undefined {
   const booking = days.find(
-    (day) =>
-      day.startTime <= hour && day.endTime > hour
+    (day) => day.startTime <= hour && day.endTime > hour
   );
   return booking;
+}
+
+function getBackgroundColor(
+  booking: Booking | undefined
+): Property.BackgroundColor {
+  if (booking == null) {
+    return "";
+  } else if (booking.type === "BLOCKED") {
+    return "red";
+  }
+  return "grey";
 }
 
 function App(props: DayViewProps) {
   const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21] as const;
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
     <div>
       <h2>{props.title}</h2>
-
       <table>
         <tbody>
           {[
@@ -43,9 +64,13 @@ function App(props: DayViewProps) {
                   <td
                     style={{
                       border: "solid 2px white",
-                      backgroundColor: booking != null ? "grey" : "",
+                      backgroundColor: getBackgroundColor(booking),
+                      minWidth: "8rem",
+                      height: "2rem",
                     }}
+                    onClick={openModal}
                   >
+                    {booking?.type === "BLOCKED" ? "gesperrt" : ""}
                     {booking?.firstName} {booking?.lastName}
                   </td>
                 </tr>
@@ -55,7 +80,9 @@ function App(props: DayViewProps) {
         </tbody>
       </table>
 
-      <div>Uhr</div>
+      <div style={{ textAlign: "left" }}>Uhr</div>
+
+      <BookingModal closeModal={closeModal} modalIsOpen={modalIsOpen} />
     </div>
   );
 }
