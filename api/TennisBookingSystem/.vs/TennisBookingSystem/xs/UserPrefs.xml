@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{D0AEBFDB-6C43-4FD5-9CBB-31E45D26584F}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/TennisBookingController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Services/ServiceBooking.cs">
     <Files>
       <File FileName="appsettings.json" Line="1" Column="1" />
       <File FileName="Program.cs" />
@@ -9,18 +9,17 @@
       <File FileName="Model/ModelCourt.cs" Line="9" Column="8" />
       <File FileName="Enum/BookingType.cs" />
       <File FileName="Services/ServiceBooking.cs" Line="8" Column="10" />
-      <File FileName="Controllers/TennisBookingController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="TennisBookingSystem" expanded="True">
             <Node name="TennisBookingSystem" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="TennisBookingController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="Model" expanded="True" />
-              <Node name="Services" expanded="True" />
+              <Node name="Services" expanded="True">
+                <Node name="ServiceBooking.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
