@@ -2,7 +2,7 @@
 
 ### Technologien
 - Datenbank: MySQL (XAMPP)
-- Backend: C#
+- Backend: C# (dotnet 6.0.201)
 - Frontend: Reactjs (Node v18.8.0)
 
 
