@@ -15,6 +15,9 @@ export interface DayViewProps {
   bookings: Booking[];
 }
 
+const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21] as const;
+export type HourType = typeof hours[number];
+
 function getBookingFromHour(
   hour: number,
   days: Booking[]
@@ -37,16 +40,23 @@ function getBackgroundColor(
 }
 
 function App(props: DayViewProps) {
-  const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21] as const;
-
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | undefined>(
+    undefined
+  );
+  const [selectedHour, setSelectedHour] = useState<
+    typeof hours[number] | undefined
+  >(undefined);
 
-  function openModal() {
+  function openModal(booking: Booking | undefined, hour: HourType) {
     setIsOpen(true);
+    setSelectedHour(hour);
+    setSelectedBooking(booking);
   }
 
   function closeModal() {
     setIsOpen(false);
+    setSelectedBooking(undefined);
   }
 
   return (
@@ -68,7 +78,7 @@ function App(props: DayViewProps) {
                       minWidth: "8rem",
                       height: "2rem",
                     }}
-                    onClick={openModal}
+                    onClick={() => openModal(booking, hour)}
                   >
                     {booking?.type === "BLOCKED" ? "gesperrt" : ""}
                     {booking?.firstName} {booking?.lastName}
@@ -81,8 +91,14 @@ function App(props: DayViewProps) {
       </table>
 
       <div style={{ textAlign: "left" }}>Uhr</div>
-
-      <BookingModal closeModal={closeModal} modalIsOpen={modalIsOpen} />
+      {selectedBooking && selectedHour ? (
+        <BookingModal
+          closeModal={closeModal}
+          modalIsOpen={modalIsOpen}
+          booking={selectedBooking}
+          hour={selectedHour}
+        />
+      ) : null}
     </div>
   );
 }
