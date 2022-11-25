@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import type { Booking, HourType } from "./DayView";
+import type { HourType } from "./DayView";
+import type { Booking } from "./types";
 
 const customStyles: Modal.Styles = {
   content: {

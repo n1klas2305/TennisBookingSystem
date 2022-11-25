@@ -1,14 +1,7 @@
 import type { Property } from "csstype";
 import { useState } from "react";
 import BookingModal from "./BookingModal";
-
-export interface Booking {
-  firstName?: string;
-  lastName?: string;
-  startTime: number;
-  endTime: number;
-  type: "BOOKED" | "BLOCKED";
-}
+import { Booking } from "./types";
 
 export interface DayViewProps {
   title: string;
@@ -44,9 +37,9 @@ function App(props: DayViewProps) {
   const [selectedBooking, setSelectedBooking] = useState<Booking | undefined>(
     undefined
   );
-  const [selectedHour, setSelectedHour] = useState<
-    typeof hours[number] | undefined
-  >(undefined);
+  const [selectedHour, setSelectedHour] = useState<HourType | undefined>(
+    undefined
+  );
 
   function openModal(booking: Booking | undefined, hour: HourType) {
     setIsOpen(true);

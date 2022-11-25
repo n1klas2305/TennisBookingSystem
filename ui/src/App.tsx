@@ -1,10 +1,6 @@
 import DayView, { type Booking } from "./DayView";
 import "./App.css";
-
-interface Court {
-  label: string;
-  bookings: Booking[];
-}
+import type { Court } from "./types";
 
 const courts: Court[] = [
   {
