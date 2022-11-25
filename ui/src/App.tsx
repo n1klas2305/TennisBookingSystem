@@ -1,27 +1,47 @@
-import DayView, { type Booking } from "./DayView";
+import DayView from "./DayView";
 import "./App.css";
+import { useState } from "react";
 import type { Court } from "./types";
+import { exampleCourts as courts } from "./example-courts";
 
-const courts: Court[] = [
-  {
-    label: "Platz 1",
-    bookings: [
-      { firstName: "Hans", startTime: 12, endTime: 14, type: "BOOKED" },
-      { startTime: 17, endTime: 18, type: "BLOCKED" },
-    ],
-  },
-  { label: "Platz 2", bookings: [] },
-  { label: "Platz 3", bookings: [] },
-  { label: "Platz 4", bookings: [] },
-];
+const days = courts.flatMap((court) =>
+  court.bookings.map((booking) => booking.day)
+);
+
+const uniqueDays = [...new Set(days)];
+
+function getCourtsForDay(day: string): Court[] {
+  return courts.map((court) => ({
+    ...court,
+    bookings: court.bookings.filter((booking) => booking.day === day),
+  }));
+}
 
 function App() {
+  const [daysIndex, setDayIndex] = useState<number>(0);
+  console.log("render App.tsx");
+
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      {courts.map((court, i) => (
-        <DayView title={court.label} bookings={court.bookings} key={i} />
-      ))}
-    </div>
+    <>
+      <button
+        disabled={daysIndex === 0}
+        onClick={() => setDayIndex(daysIndex - 1)}
+      >
+        ⬅️
+      </button>
+      <div>{uniqueDays[daysIndex]}</div>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {getCourtsForDay(uniqueDays[daysIndex]).map((court, i) => (
+          <DayView title={court.label} bookings={court.bookings} key={i} />
+        ))}
+      </div>
+      <button
+        disabled={daysIndex === uniqueDays.length - 1}
+        onClick={() => setDayIndex(daysIndex + 1)}
+      >
+        ➡️
+      </button>
+    </>
   );
 }
 
