@@ -32,18 +32,32 @@ function App() {
     setDay(dayjs(day).add(days, "day").format(englishFormat));
 
   return (
-    <>
-      <button disabled={day === firstDay} onClick={() => increaseDay(-1)}>
+    <div
+      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+    >
+      <button
+        disabled={day === firstDay}
+        onClick={() => increaseDay(-1)}
+        style={{ height: "fit-content" }}
+      >
         ⬅️
+        {day === firstDay
+          ? "-"
+          : dayjs(day).add(-1, "day").format(englishFormat)}
       </button>
-      <div>{dayjs(day).format(germanFormat)}</div>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {getCourtsForDay(day).map((court, i) => (
-          <DayView title={court.label} bookings={court.bookings} key={i} />
-        ))}
+      <div>
+        <div>{dayjs(day).format(germanFormat)}</div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {getCourtsForDay(day).map((court, i) => (
+            <DayView title={court.label} bookings={court.bookings} key={i} />
+          ))}
+        </div>
       </div>
-      <button onClick={() => increaseDay(1)}>➡️</button>
-    </>
+
+      <button onClick={() => increaseDay(1)}>
+        {dayjs(day).add(1, "day").format(englishFormat)} ➡️
+      </button>
+    </div>
   );
 }
 
