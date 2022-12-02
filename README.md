@@ -14,3 +14,9 @@ npm i
 # Entwicklungsserver starten
 npm run dev
 ```
+
+
+### Generate C# Classes for O/R-Mapping (Object/Relational-Mapping)
+```bash
+dotnet ef dbcontext scaffold "Server=localhost;Port=3306;Database=TennisCourtBooking;Uid=root;Pwd=;" Pomelo.EntityFrameworkCore.MySql -o Models
+```
