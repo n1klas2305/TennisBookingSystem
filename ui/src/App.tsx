@@ -1,30 +1,62 @@
-import DayView, { type Booking } from "./DayView";
+import DayView from "./DayView";
 import "./App.css";
+import { useState } from "react";
+import type { Court } from "./types";
+import { exampleCourts as courts } from "./example-courts";
+import dayjs from "dayjs";
 
-interface Court {
-  label: string;
-  bookings: Booking[];
+const germanFormat = "DD.MM.YYYY";
+const englishFormat = "YYYY-MM-DD";
+
+const days = courts.flatMap((court) =>
+  court.bookings.map((booking) => booking.day)
+);
+
+const uniqueDays = [...new Set(days)];
+let firstDay = uniqueDays.sort()[0];
+if (dayjs(firstDay).isAfter(undefined)) {
+  firstDay = dayjs().format(englishFormat);
 }
 
-const courts: Court[] = [
-  {
-    label: "Platz 1",
-    bookings: [
-      { firstName: "Hans", startTime: 12, endTime: 14, type: "BOOKED" },
-      { startTime: 17, endTime: 18, type: "BLOCKED" },
-    ],
-  },
-  { label: "Platz 2", bookings: [] },
-  { label: "Platz 3", bookings: [] },
-  { label: "Platz 4", bookings: [] },
-];
+function getCourtsForDay(day: string): Court[] {
+  return courts.map((court) => ({
+    ...court,
+    bookings: court.bookings.filter((booking) => booking.day === day),
+  }));
+}
 
 function App() {
+  const [day, setDay] = useState(firstDay);
+
+  const increaseDay = (days: number) =>
+    setDay(dayjs(day).add(days, "day").format(englishFormat));
+
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      {courts.map((court, i) => (
-        <DayView title={court.label} bookings={court.bookings} key={i} />
-      ))}
+    <div
+      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+    >
+      <button
+        disabled={day === firstDay}
+        onClick={() => increaseDay(-1)}
+        style={{ height: "fit-content" }}
+      >
+        ⬅️
+        {day === firstDay
+          ? "-"
+          : dayjs(day).add(-1, "day").format(englishFormat)}
+      </button>
+      <div>
+        <div>{dayjs(day).format(germanFormat)}</div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {getCourtsForDay(day).map((court, i) => (
+            <DayView title={court.label} bookings={court.bookings} key={i} />
+          ))}
+        </div>
+      </div>
+
+      <button onClick={() => increaseDay(1)}>
+        {dayjs(day).add(1, "day").format(englishFormat)} ➡️
+      </button>
     </div>
   );
 }
