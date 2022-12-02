@@ -50,6 +50,7 @@ function App(props: DayViewProps) {
   function closeModal() {
     setIsOpen(false);
     setSelectedBooking(undefined);
+    setSelectedHour(undefined);
   }
 
   return (
@@ -82,9 +83,8 @@ function App(props: DayViewProps) {
           ]}
         </tbody>
       </table>
-
       <div style={{ textAlign: "left" }}>Uhr</div>
-      {selectedBooking && selectedHour ? (
+      {selectedHour ? (
         <BookingModal
           closeModal={closeModal}
           modalIsOpen={modalIsOpen}

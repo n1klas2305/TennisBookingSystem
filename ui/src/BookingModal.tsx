@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import type { HourType } from "./DayView";
 import type { Booking } from "./types";
@@ -24,13 +24,24 @@ type BookingModalProps = {
 };
 
 export default (props: BookingModalProps) => {
-  const [firstName, setFirstName] = useState(props.booking?.firstName ?? "");
-  const [lastName, setLastName] = useState(props.booking?.lastName ?? "");
+  const getForm = () => ({
+    firstName: props.booking?.firstName ?? "",
+    lastName: props.booking?.lastName ?? "",
+  });
 
+  const [form, setForm] = useState(getForm());
+
+  useEffect(() => {
+    setForm(getForm());
+  }, [props]);
+
+  const close = () => {
+    props.closeModal();
+  };
   return (
     <Modal
       isOpen={props.modalIsOpen}
-      onRequestClose={props.closeModal}
+      onRequestClose={close}
       style={customStyles}
       contentLabel="Buchung"
     >
@@ -43,20 +54,20 @@ export default (props: BookingModalProps) => {
           Vorname:
           <input
             type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={form.firstName}
+            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
           />
         </label>
         <label>
           Nachname:
           <input
             type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={form.lastName}
+            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
           />
         </label>
-        <button type="submit">buchen</button>
-        <button type="reset" onClick={props.closeModal}>
+        <button type="submit">{props.booking ? "stornieren" : "buchen"}</button>
+        <button type="reset" onClick={close}>
           abbrechen
         </button>
       </form>
