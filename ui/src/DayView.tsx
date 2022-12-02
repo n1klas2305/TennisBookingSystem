@@ -32,7 +32,7 @@ function getBackgroundColor(
   return "grey";
 }
 
-function App(props: DayViewProps) {
+function App({ title, bookings }: DayViewProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | undefined>(
     undefined
@@ -55,12 +55,12 @@ function App(props: DayViewProps) {
 
   return (
     <div>
-      <h2>{props.title}</h2>
+      <h2>{title}</h2>
       <table>
         <tbody>
           {[
             ...hours.map((hour, i) => {
-              const booking = getBookingFromHour(hour, props.bookings);
+              const booking = getBookingFromHour(hour, bookings);
 
               return (
                 <tr key={i}>
