@@ -15,6 +15,12 @@ npm i
 npm run dev
 ```
 
+### API starten
+```bash
+cd api
+
+dotnet run
+```
 
 ### Generate C# Classes for O/R-Mapping (Object/Relational-Mapping)
 ```bash

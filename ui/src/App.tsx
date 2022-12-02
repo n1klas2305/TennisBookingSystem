@@ -43,7 +43,7 @@ function App() {
         ⬅️
         {day === firstDay
           ? "-"
-          : dayjs(day).add(-1, "day").format(englishFormat)}
+          : dayjs(day).add(-1, "day").format(germanFormat)}
       </button>
       <div>
         <div>{dayjs(day).format(germanFormat)}</div>
@@ -55,7 +55,7 @@ function App() {
       </div>
 
       <button onClick={() => increaseDay(1)}>
-        {dayjs(day).add(1, "day").format(englishFormat)} ➡️
+        {dayjs(day).add(1, "day").format(germanFormat)} ➡️
       </button>
     </div>
   );

@@ -49,7 +49,10 @@ export default (props: BookingModalProps) => {
       <div>
         {props.hour}:00 - {props.hour + 1}.00 Uhr
       </div>
-      <form>
+      <form
+        onClick={(e) => e.preventDefault()}
+        style={{ display: "flex", flexDirection: "column" }}
+      >
         <label>
           Vorname:
           <input
