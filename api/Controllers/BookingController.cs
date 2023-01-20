@@ -7,18 +7,18 @@ namespace TennisBookingApi.Controllers;
 [Route("api/[controller]")]
 public class BookingController : ControllerBase
 {
-    private readonly ScottDbContext dbContext;
+  private readonly ScottDbContext dbContext;
 
-    public BookingController(ScottDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
+  public BookingController(ScottDbContext dbContext)
+  {
+    this.dbContext = dbContext;
+  }
 
-    [HttpGet]
-    public IEnumerable<Booking> getBookings()
-    {
-        return dbContext.Bookings.ToList();
-    }
+  [HttpGet]
+  public IEnumerable<Booking> getBookings()
+  {
+    return dbContext.Bookings.ToList();
+  }
 }
 
 
