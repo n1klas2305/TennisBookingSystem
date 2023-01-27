@@ -1,7 +1,7 @@
 # TennisBookingSystem
 
 ### Technologien
-- Datenbank: MySQL (XAMPP)
+- Datenbank: MySQL (XAMPP 3.3.0)
 - Backend: C# (dotnet 6.0.201)
 - Frontend: Reactjs (Node v18.8.0)
 
