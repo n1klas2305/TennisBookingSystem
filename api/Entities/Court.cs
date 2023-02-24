@@ -1,16 +1,9 @@
-﻿// using System;
-// using System.Collections.Generic;
-// using WebApi.Models.Bookings;
+﻿namespace WebApi.Entities;
 
-// public class Court
-// {
-//   public Court()
-//   {
-//     Bookings = new HashSet<Booking>();
-//   }
+public class Court
+{
+  public int CourtId { get; set; }
+  public string Label { get; set; }
 
-//   public int CourtId { get; set; }
-//   public string Label { get; set; }
-
-//   public virtual ICollection<Booking> Bookings { get; set; }
-// }
+  public List<Booking> Bookings { get; set; }
+}

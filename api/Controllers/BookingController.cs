@@ -1,9 +1,9 @@
-﻿namespace WebApi.Controllers;
+﻿namespace WebApi.Controllers.Booking;
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models.Bookings;
-using WebApi.Services;
+using WebApi.Services.Booking;
 
 [ApiController]
 [Route("[controller]")]

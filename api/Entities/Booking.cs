@@ -1,7 +1,5 @@
 ﻿namespace WebApi.Entities;
 
-using System.Text.Json.Serialization;
-
 public class Booking
 {
   public int BookingId { get; set; }
@@ -13,6 +11,5 @@ public class Booking
   public int? StartTime { get; set; }
   public int? EndTime { get; set; }
 
-  // [ForeignKey(nameof(CourtId))]
-  // public virtual Court Court { get; set; }
+  public Court Court { get; set; }
 }

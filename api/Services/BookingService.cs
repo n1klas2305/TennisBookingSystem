@@ -1,7 +1,6 @@
-namespace WebApi.Services;
+namespace WebApi.Services.Booking;
 
 using AutoMapper;
-using BCrypt.Net;
 using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models.Bookings;
@@ -41,14 +40,11 @@ public class BookingService : IBookingService
   public void Create(CreateRequest model)
   {
     // validate
-    // if (_context.Bookings.Any(x => x.BookingId == model.BookingId))
-    // throw new AppException("Booking with the email '" + model.Email + "' already exists");
+    if (_context.Bookings.Any(b => b.BookingId == model.BookingId))
+      throw new AppException("Booking with the id '" + model.BookingId + "' already exists");
 
     // map model to new booking object
     var booking = _mapper.Map<Booking>(model);
-
-    // hash password
-    // booking.PasswordHash = BCrypt.HashPassword(model.Password);
 
     // save booking
     _context.Bookings.Add(booking);
@@ -59,14 +55,8 @@ public class BookingService : IBookingService
   {
     var booking = getBooking(id);
 
-    // validate
-    // if (model.Email != booking.Email && _context.Bookings.Any(x => x.Email == model.Email))
-    //   throw new AppException("Booking with the email '" + model.Email + "' already exists");
-
     // hash password if it was entered
     if (!string.IsNullOrEmpty(model.Password))
-      // booking.PasswordHash = BCrypt.HashPassword(model.Password);
-
       // copy model to booking and save
       _mapper.Map(model, booking);
     _context.Bookings.Update(booking);
@@ -81,7 +71,6 @@ public class BookingService : IBookingService
   }
 
   // helper methods
-
   private Booking getBooking(int id)
   {
     var booking = _context.Bookings.Find(id);

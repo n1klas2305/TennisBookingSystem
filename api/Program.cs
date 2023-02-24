@@ -1,44 +1,46 @@
 ﻿using System.Text.Json.Serialization;
 using WebApi.Helpers;
-using WebApi.Services;
+using WebApi.Services.Booking;
+using WebApi.Services.Court;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // add services to DI container
 {
-    var services = builder.Services;
-    var env = builder.Environment;
- 
-    services.AddDbContext<DataContext>();
-    services.AddCors();
-    services.AddControllers().AddJsonOptions(x =>
-    {
-        // serialize enums as strings in api responses (e.g. Role)
-        x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+  var services = builder.Services;
+  var env = builder.Environment;
 
-        // ignore omitted parameters on models to enable optional params (e.g. User update)
-        x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    });
-    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+  services.AddDbContext<DataContext>();
+  services.AddCors();
+  services.AddControllers().AddJsonOptions(x =>
+  {
+    // serialize enums as strings in api responses (e.g. Role)
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
-    // configure DI for application services
-    services.AddScoped<IBookingService, BookingService>();
+    // ignore omitted parameters on models to enable optional params (e.g. User update)
+    x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+  });
+  services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+  // configure DI for application services
+  services.AddScoped<IBookingService, BookingService>();
+  services.AddScoped<ICourtService, CourtService>();
 }
 
 var app = builder.Build();
 
 // configure HTTP request pipeline
 {
-    // global cors policy
-    app.UseCors(x => x
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader());
+  // global cors policy
+  app.UseCors(x => x
+      .AllowAnyOrigin()
+      .AllowAnyMethod()
+      .AllowAnyHeader());
 
-    // global error handler
-    app.UseMiddleware<ErrorHandlerMiddleware>();
+  // global error handler
+  app.UseMiddleware<ErrorHandlerMiddleware>();
 
-    app.MapControllers();
+  app.MapControllers();
 }
 
 app.Run("http://localhost:4000");
