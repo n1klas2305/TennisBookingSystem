@@ -29,7 +29,17 @@ public class CourtService : ICourtService
 
   public IEnumerable<Court> GetAll()
   {
-    return _context.Courts;
+
+    return _context.Courts
+    .Select(court => new Court()
+    {
+      CourtId = court.CourtId,
+      Label = court.Label,
+      Bookings = _context.Bookings
+        .Where(booking => booking.CourtId == court.CourtId)
+        .ToList()
+    })
+    .ToList();
   }
 
   public Court GetById(int id)
