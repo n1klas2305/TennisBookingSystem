@@ -25,6 +25,7 @@ public class DataContext : DbContext
   {
     modelBuilder.Entity<Booking>()
         .HasOne(b => b.Court)
-        .WithMany(c => c.Bookings);
+        .WithMany(c => c.Bookings)
+        .IsRequired();
   }
 }
