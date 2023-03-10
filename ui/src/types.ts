@@ -1,15 +1,16 @@
 export interface Court {
-  id?: string;
+  courtId?: string;
   label: string;
   bookings: Booking[];
 }
 
 export interface Booking {
-  id?: string;
+  bookingId?: string;
+  courtId: string;
   type: "BOOKED" | "BLOCKED";
   firstName?: string;
   lastName?: string;
-  day: string;
+  date: string;
   startTime: number;
   endTime: number;
 }

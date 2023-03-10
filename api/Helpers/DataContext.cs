@@ -54,7 +54,7 @@ public class DataContext : DbContext
           CourtId = 1,
           FirstName = "Hetty",
           LastName = "Deacon",
-          Date = new DateTime(2022, 11, 24),
+          Date = new DateTime(2023, 03, 24),
           StartTime = 12,
           EndTime = 14,
           Type = Booking.BookingType.BOOKED
@@ -65,7 +65,7 @@ public class DataContext : DbContext
           CourtId = 1,
           FirstName = "Oisin",
           LastName = "Clements",
-          Date = new DateTime(2022, 11, 25),
+          Date = new DateTime(2023, 03, 25),
           StartTime = 9,
           EndTime = 10,
           Type = Booking.BookingType.BOOKED
@@ -76,7 +76,7 @@ public class DataContext : DbContext
           CourtId = 1,
           FirstName = "Maaria",
           LastName = "Garza",
-          Date = new DateTime(2022, 11, 26),
+          Date = new DateTime(2023, 03, 26),
           StartTime = 14,
           EndTime = 15,
           Type = Booking.BookingType.BOOKED
@@ -85,7 +85,7 @@ public class DataContext : DbContext
         {
           BookingId = 4,
           CourtId = 1,
-          Date = new DateTime(2022, 11, 26),
+          Date = new DateTime(2023, 03, 26),
           StartTime = 17,
           EndTime = 18,
           Type = Booking.BookingType.BLOCKED
@@ -96,7 +96,7 @@ public class DataContext : DbContext
           CourtId = 3,
           FirstName = "Lili",
           LastName = "Wilkes",
-          Date = new DateTime(2022, 11, 24),
+          Date = new DateTime(2023, 03, 24),
           StartTime = 11,
           EndTime = 14,
           Type = Booking.BookingType.BOOKED
@@ -105,7 +105,7 @@ public class DataContext : DbContext
         {
           BookingId = 6,
           CourtId = 3,
-          Date = new DateTime(2022, 11, 26),
+          Date = new DateTime(2023, 03, 26),
           StartTime = 10,
           EndTime = 22,
           Type = Booking.BookingType.BLOCKED

@@ -1,35 +1,49 @@
 import DayView from "./DayView";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Court } from "./types";
-import { exampleCourts as courts } from "./example-courts";
 import dayjs from "dayjs";
 
 const germanFormat = "DD.MM.YYYY";
 const englishFormat = "YYYY-MM-DD";
 
-const days = courts.flatMap((court) =>
-  court.bookings.map((booking) => booking.day)
-);
-
-const uniqueDays = [...new Set(days)];
-let firstDay = uniqueDays.sort()[0];
-if (dayjs(firstDay).isAfter(undefined)) {
-  firstDay = dayjs().format(englishFormat);
-}
-
-function getCourtsForDay(day: string): Court[] {
-  return courts.map((court) => ({
-    ...court,
-    bookings: court.bookings.filter((booking) => booking.day === day),
-  }));
-}
-
 function App() {
-  const [day, setDay] = useState(firstDay);
+  const [day, setDay] = useState(dayjs().format(englishFormat));
+  const [firstDay, setFirstDay] = useState(dayjs().format(englishFormat));
+  const [courts, setCourts] = useState<Court[]>([]);
 
   const increaseDay = (days: number) =>
     setDay(dayjs(day).add(days, "day").format(englishFormat));
+
+  useEffect(() => {
+    const load = async () => {
+      const response = await fetch("http://localhost:4000/courts");
+      const data = (await response.json()) as Court[];
+
+      const days = data.flatMap((court) =>
+        court.bookings.map((booking) => booking.date)
+      );
+
+      const uniqueDays = [...new Set(days)];
+      if (dayjs(firstDay).isAfter(undefined)) {
+        setFirstDay(dayjs().format(englishFormat));
+      } else {
+        setFirstDay(uniqueDays.sort()[0]);
+      }
+
+      setCourts(data);
+    };
+    load();
+  }, []);
+
+  function getCourtsForDay(day: string): Court[] {
+    return courts.map((court) => ({
+      ...court,
+      bookings: court.bookings.filter((booking) =>
+        dayjs(booking.date).isSame(day, "day")
+      ),
+    }));
+  }
 
   return (
     <div
