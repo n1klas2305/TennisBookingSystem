@@ -9,7 +9,7 @@ public class Booking
   }
 
   public int BookingId { get; set; }
-  public int? CourtId { get; set; }
+  public int CourtId { get; set; }
   public BookingType Type { get; set; }
   public string FirstName { get; set; }
   public string LastName { get; set; }

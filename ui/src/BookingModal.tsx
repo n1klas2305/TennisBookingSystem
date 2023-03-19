@@ -72,6 +72,30 @@ export default (props: BookingModalProps) => {
     }
   };
 
+  const submitBlockedBocking = async () => {
+    if (props.booking == null) {
+      await fetch("http://localhost:4000/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          CourtId: props.courtId,
+          Type: "BLOCKED",
+          Date: props.day,
+          StartTime: props.hour,
+          EndTime: props.hour + 1,
+        }),
+      });
+      props.closeModal("new");
+    } else if (props.booking != null) {
+      await fetch(`http://localhost:4000/bookings/${props.booking.bookingId}`, {
+        method: "DELETE",
+      });
+      props.closeModal("deleted");
+    }
+  };
+
   return (
     <Modal
       isOpen={props.modalIsOpen}
@@ -81,31 +105,45 @@ export default (props: BookingModalProps) => {
     >
       <div>Zeitraum: {dayjs(props.day).format("DD.MM.YYYY")}</div>
       <div>
-        {props.hour}:00 - {props.hour + 1}.00 Uhr
+        {props.hour}:00 - {props.booking?.endTime ?? props.hour + 1}.00 Uhr
       </div>
       <form
         onClick={(e) => e.preventDefault()}
         style={{ display: "flex", flexDirection: "column" }}
       >
-        <label>
-          Vorname:
-          <input
-            type="text"
-            value={form.firstName}
-            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-          />
-        </label>
-        <label>
-          Nachname:
-          <input
-            type="text"
-            value={form.lastName}
-            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-          />
-        </label>
-        <button type="submit" onClick={submit}>
-          {props.booking ? "stornieren" : "buchen"}
-        </button>
+        {(props.booking == null || props.booking.type === "BOOKED") && (
+          <>
+            <label>
+              Vorname:
+              <input
+                type="text"
+                value={form.firstName}
+                onChange={(e) =>
+                  setForm({ ...form, firstName: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Nachname:
+              <input
+                type="text"
+                value={form.lastName}
+                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+              />
+            </label>
+          </>
+        )}
+
+        {(props.booking == null || props.booking.type === "BLOCKED") && (
+          <button type="submit" onClick={submitBlockedBocking}>
+            {props.booking ? "entsperren" : "sperren"}
+          </button>
+        )}
+        {(props.booking == null || props.booking.type === "BOOKED") && (
+          <button type="submit" onClick={submit}>
+            {props.booking ? "stornieren" : "buchen"}
+          </button>
+        )}
         <button type="reset" onClick={close}>
           abbrechen
         </button>

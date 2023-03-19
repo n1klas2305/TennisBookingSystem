@@ -14,10 +14,8 @@ public class CreateRequest
   [Required]
   public string Type { get; set; }
 
-  [Required]
   public string FirstName { get; set; }
 
-  [Required]
   public string LastName { get; set; }
 
   [Required]
