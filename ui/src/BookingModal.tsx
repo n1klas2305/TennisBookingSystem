@@ -22,7 +22,7 @@ type BookingModalProps = {
   courtId: string;
   hour: HourType;
   day: string;
-  closeModal: () => void;
+  closeModal: (type?: "new" | "deleted") => void;
   modalIsOpen: boolean;
 };
 
@@ -62,11 +62,13 @@ export default (props: BookingModalProps) => {
           EndTime: props.hour + 1,
         }),
       });
+      props.closeModal("new");
     } else if (props.booking != null) {
       // remove booking
       await fetch(`http://localhost:4000/bookings/${props.booking.bookingId}`, {
         method: "DELETE",
       });
+      props.closeModal("deleted");
     }
   };
 

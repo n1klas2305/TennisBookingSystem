@@ -6,6 +6,7 @@ import { Booking, Court } from "./types";
 export interface DayViewProps {
   court: Court;
   day: string;
+  update: (type?: "new" | "deleted") => void;
 }
 
 const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21] as const;
@@ -32,7 +33,7 @@ function getBackgroundColor(
   return "grey";
 }
 
-function App({ court, day }: DayViewProps) {
+function App(props: DayViewProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | undefined>(
     undefined
@@ -47,20 +48,21 @@ function App({ court, day }: DayViewProps) {
     setSelectedBooking(booking);
   }
 
-  function closeModal() {
+  function closeModal(type?: "new" | "deleted") {
     setIsOpen(false);
     setSelectedBooking(undefined);
     setSelectedHour(undefined);
+    props.update(type);
   }
 
   return (
     <div>
-      <h2>{court.label}</h2>
+      <h2>{props.court.label}</h2>
       <table>
         <tbody>
           {[
             ...hours.map((hour, i) => {
-              const booking = getBookingFromHour(hour, court.bookings);
+              const booking = getBookingFromHour(hour, props.court.bookings);
 
               return (
                 <tr key={i}>
@@ -90,8 +92,8 @@ function App({ court, day }: DayViewProps) {
           modalIsOpen={modalIsOpen}
           booking={selectedBooking}
           hour={selectedHour}
-          day={day}
-          courtId={court.courtId}
+          day={props.day}
+          courtId={props.court.courtId}
         />
       ) : null}
     </div>

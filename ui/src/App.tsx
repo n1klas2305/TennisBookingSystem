@@ -15,26 +15,33 @@ function App() {
   const increaseDay = (days: number) =>
     setDay(dayjs(day).add(days, "day").format(englishFormat));
 
+  const fetchData = async () => {
+    const response = await fetch("http://localhost:4000/courts");
+    const data = (await response.json()) as Court[];
+
+    const days = data.flatMap((court) =>
+      court.bookings.map((booking) => booking.date)
+    );
+
+    const uniqueDays = [...new Set(days)];
+    if (dayjs(firstDay).isAfter(undefined)) {
+      setFirstDay(dayjs().format(englishFormat));
+    } else {
+      setFirstDay(uniqueDays.sort()[0]);
+    }
+
+    setCourts(data);
+  };
+
   useEffect(() => {
-    const load = async () => {
-      const response = await fetch("http://localhost:4000/courts");
-      const data = (await response.json()) as Court[];
-
-      const days = data.flatMap((court) =>
-        court.bookings.map((booking) => booking.date)
-      );
-
-      const uniqueDays = [...new Set(days)];
-      if (dayjs(firstDay).isAfter(undefined)) {
-        setFirstDay(dayjs().format(englishFormat));
-      } else {
-        setFirstDay(uniqueDays.sort()[0]);
-      }
-
-      setCourts(data);
-    };
-    load();
+    fetchData();
   }, []);
+
+  const changed = (type?: "new" | "deleted") => {
+    if (type) {
+      fetchData();
+    }
+  };
 
   function getCourtsForDay(day: string): Court[] {
     return courts.map((court) => ({
@@ -63,7 +70,7 @@ function App() {
         <div>{dayjs(day).format(germanFormat)}</div>
         <div style={{ display: "flex", flexDirection: "row" }}>
           {getCourtsForDay(day).map((court, i) => (
-            <DayView key={i} court={court} day={day} />
+            <DayView key={i} court={court} day={day} update={changed} />
           ))}
         </div>
       </div>
