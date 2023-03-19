@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import type { HourType } from "./DayView";
@@ -19,6 +20,7 @@ const customStyles: Modal.Styles = {
 type BookingModalProps = {
   booking: Booking | undefined;
   hour: HourType;
+  day: string;
   closeModal: () => void;
   modalIsOpen: boolean;
 };
@@ -45,7 +47,7 @@ export default (props: BookingModalProps) => {
       style={customStyles}
       contentLabel="Buchung"
     >
-      <div>Zeitraum: Freitag, 07.02.2022</div>
+      <div>Zeitraum: {dayjs(props.day).format("DD.MM.YYYY")}</div>
       <div>
         {props.hour}:00 - {props.hour + 1}.00 Uhr
       </div>

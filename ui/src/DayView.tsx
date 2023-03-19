@@ -6,6 +6,7 @@ import { Booking } from "./types";
 export interface DayViewProps {
   title: string;
   bookings: Booking[];
+  day: string;
 }
 
 const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21] as const;
@@ -32,7 +33,7 @@ function getBackgroundColor(
   return "grey";
 }
 
-function App({ title, bookings }: DayViewProps) {
+function App({ title, bookings, day }: DayViewProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | undefined>(
     undefined
@@ -90,6 +91,7 @@ function App({ title, bookings }: DayViewProps) {
           modalIsOpen={modalIsOpen}
           booking={selectedBooking}
           hour={selectedHour}
+          day={day}
         />
       ) : null}
     </div>
