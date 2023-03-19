@@ -1,5 +1,5 @@
 export interface Court {
-  courtId?: string;
+  courtId: string;
   label: string;
   bookings: Booking[];
 }

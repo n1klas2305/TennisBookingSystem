@@ -1,11 +1,10 @@
 import type { Property } from "csstype";
 import { useState } from "react";
 import BookingModal from "./BookingModal";
-import { Booking } from "./types";
+import { Booking, Court } from "./types";
 
 export interface DayViewProps {
-  title: string;
-  bookings: Booking[];
+  court: Court;
   day: string;
 }
 
@@ -33,7 +32,7 @@ function getBackgroundColor(
   return "grey";
 }
 
-function App({ title, bookings, day }: DayViewProps) {
+function App({ court, day }: DayViewProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | undefined>(
     undefined
@@ -56,12 +55,12 @@ function App({ title, bookings, day }: DayViewProps) {
 
   return (
     <div>
-      <h2>{title}</h2>
+      <h2>{court.label}</h2>
       <table>
         <tbody>
           {[
             ...hours.map((hour, i) => {
-              const booking = getBookingFromHour(hour, bookings);
+              const booking = getBookingFromHour(hour, court.bookings);
 
               return (
                 <tr key={i}>
@@ -92,6 +91,7 @@ function App({ title, bookings, day }: DayViewProps) {
           booking={selectedBooking}
           hour={selectedHour}
           day={day}
+          courtId={court.courtId}
         />
       ) : null}
     </div>

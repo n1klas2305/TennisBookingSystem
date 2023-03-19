@@ -19,6 +19,7 @@ const customStyles: Modal.Styles = {
 
 type BookingModalProps = {
   booking: Booking | undefined;
+  courtId: string;
   hour: HourType;
   day: string;
   closeModal: () => void;
@@ -40,6 +41,35 @@ export default (props: BookingModalProps) => {
   const close = () => {
     props.closeModal();
   };
+
+  const submit = async () => {
+    if (form.firstName === "" || form.lastName === "") {
+      alert("Fehlende Daten");
+    } else if (props.booking == null) {
+      // save new booking
+      await fetch("http://localhost:4000/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          CourtId: props.courtId,
+          Type: "BOOKED",
+          FirstName: form.firstName,
+          LastName: form.lastName,
+          Date: props.day,
+          StartTime: props.hour,
+          EndTime: props.hour + 1,
+        }),
+      });
+    } else if (props.booking != null) {
+      // remove booking
+      await fetch(`http://localhost:4000/bookings/${props.booking.bookingId}`, {
+        method: "DELETE",
+      });
+    }
+  };
+
   return (
     <Modal
       isOpen={props.modalIsOpen}
@@ -71,7 +101,9 @@ export default (props: BookingModalProps) => {
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
           />
         </label>
-        <button type="submit">{props.booking ? "stornieren" : "buchen"}</button>
+        <button type="submit" onClick={submit}>
+          {props.booking ? "stornieren" : "buchen"}
+        </button>
         <button type="reset" onClick={close}>
           abbrechen
         </button>

@@ -63,12 +63,7 @@ function App() {
         <div>{dayjs(day).format(germanFormat)}</div>
         <div style={{ display: "flex", flexDirection: "row" }}>
           {getCourtsForDay(day).map((court, i) => (
-            <DayView
-              title={court.label}
-              bookings={court.bookings}
-              key={i}
-              day={day}
-            />
+            <DayView key={i} court={court} day={day} />
           ))}
         </div>
       </div>
